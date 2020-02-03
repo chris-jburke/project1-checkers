@@ -1,0 +1,28 @@
+* {
+	margin: 0 auto;
+}
+
+#game-space {
+	height: 70vw;
+	width: 70vw;
+	margin-bottom: 15px;
+}
+.row{
+	display: flex;
+	height: 12.5%;
+	border: 1px black solid;
+	flex-direction: row;
+}
+.row-box{
+	height: 100%;
+	width: 100%;
+	border: 1px black solid;
+	margin: 0px 0px 0px 0px;
+}
+.black-box {
+	background: black;
+}
+img{
+	height: 100%;
+	width: 100%;
+}

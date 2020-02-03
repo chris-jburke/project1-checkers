@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Checkers</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<script type="text/javascript" src="app.js"></script>
+	</head>
+	<body>
+		<div id="game-space">
+  			<div class="row">
+  				<div class="row-box" id="row0-box0"></div>
+  				<div class="row-box black-box" id="row0-box1">
+  					<img src="images/white-piece.png" id="row0-box1" class="white">
+  				</div>
+  				<div class="row-box" id="row0-box2"></div>
+  				<div class="row-box black-box" id="row0-box3">
+  					<img src="images/white-piece.png" id="row0-box3" class="white">
+  				</div>
+  				<div class="row-box" id="row0-box4"></div>
+  				<div class="row-box black-box" id="row0-box5">
+  					<img src="images/white-piece.png" id="row0-box5" class="white">
+  				</div>
+  				<div class="row-box" id="row0-box6"></div>
+  				<div class="row-box black-box" id="row0-box7">
+  					<img src="images/white-piece.png" id="row0-box7" class="white">
+  				</div>
+  			</div>
+  			<div class="row">
+  				<div class="row-box black-box" id="row1-box0">
+  					<img src="images/white-piece.png" id="row1-box0" class="white">
+  				</div>
+  				<div class="row-box" id="row1-box1"></div>
+  				<div class="row-box black-box" id="row1-box2">
+  					<img src="images/white-piece.png" id="row1-box2" class="white">
+  				</div>
+  				<div class="row-box" id="row1-box3"></div>
+  				<div class="row-box black-box" id="row1-box4">
+  					<img src="images/white-piece.png" id="row1-box4" class="white">
+  				</div>
+  				<div class="row-box" id="row1-box5"></div>
+  				<div class="row-box black-box" id="row1-box6">
+  					<img src="images/white-piece.png" id="row1-box6" class="white">
+  				</div>
+  				<div class="row-box" id="row1-box7"></div>  			
+  			</div>
+  			<div class="row">
+  				<div class="row-box" id="row2-box0"></div>
+  				<div class="row-box black-box" id="row2-box1">
+  					<img src="images/white-piece.png" id="row2-box1" class="white">
+  				</div>
+  				<div class="row-box" id="row2-box2"></div>
+  				<div class="row-box black-box" id="row2-box3">
+  					<img src="images/white-piece.png" id="row2-box3" class="white">
+  				</div>
+  				<div class="row-box" id="row2-box4"></div>
+  				<div class="row-box black-box" id="row2-box5">
+  					<img src="images/white-piece.png" id="row2-box5" class="white">
+  				</div>
+				<div class="row-box" id="row2-box6"></div>
+  				<div class="row-box black-box" id="row2-box7">
+  					<img src="images/white-piece.png" id="row2-box7" class="white">
+  				</div>
+  			</div>
+  			<div class="row">
+  				<div class="row-box black-box" id="row3-box0"></div>
+  				<div class="row-box" id="row3-box1"></div>
+  				<div class="row-box black-box" id="row3-box2"></div>
+  				<div class="row-box" id="row3-box3"></div>
+  				<div class="row-box black-box" id="row3-box4"></div>
+  				<div class="row-box" id="row3-box5"></div>
+				<div class="row-box black-box" id="row3-box6"></div>
+  				<div class="row-box" id="row3-box7"></div>
+  			</div>
+  			<div class="row">
+  				<div class="row-box" id="row4-box0"></div>
+  				<div class="row-box black-box" id="row4-box1"></div>
+  				<div class="row-box" id="row4-box2"></div>
+  				<div class="row-box black-box" id="row4-box3"></div>
+  				<div class="row-box" id="row4-box4"></div>
+  				<div class="row-box black-box" id="row4-box5"></div>
+				<div class="row-box" id="row4-box6"></div>
+  				<div class="row-box black-box" id="row4-box7"></div>
+  			</div>
+  			<div class="row">
+  				<div class="row-box black-box" id="row5-box0">
+  					<img src="images/black-piece.png" id="row5-box0" class="black">
+  				</div>
+  				<div class="row-box" id="row5-box1"></div>
+  				<div class="row-box black-box" id="row5-box2">
+  					<img src="images/black-piece.png" id="row5-box2" class="black">
+  				</div>
+  				<div class="row-box" id="row5-box3"></div>
+  				<div class="row-box black-box" id="row5-box4">
+  					<img src="images/black-piece.png" id="row5-box4" class="black">
+  				</div>
+  				<div class="row-box" id="row5-box5"></div>
+				<div class="row-box black-box" id="row5-box6">
+					<img src="images/black-piece.png" id="row5-box6" class="black">
+				</div>
+  				<div class="row-box" id="row5-box7"></div>
+  			</div>
+  			<div class="row">
+  				<div class="row-box" id="row6-box0"></div>
+  				<div class="row-box black-box" id="row6-box1">
+  					<img src="images/black-piece.png" id="row6-box1" class="black">
+  				</div>
+  				<div class="row-box" id="row6-box2"></div>
+  				<div class="row-box black-box" id="row6-box3">
+  					<img src="images/black-piece.png" id="row6-box3" class="black">
+  				</div>
+  				<div class="row-box" id="row6-box4"></div>
+  				<div class="row-box black-box" id="row6-box5">
+  					<img src="images/black-piece.png" id="row6-box5" class="black">
+  				</div>
+				<div class="row-box" id="row6-box6"></div>
+  				<div class="row-box black-box" id="row6-box7">
+  					<img src="images/black-piece.png" id="row6-box7" class="black">
+  				</div>
+  			</div>
+  			<div class="row">
+  				<div class="row-box black-box" id="row7-box0">
+  					<img src="images/black-piece.png" id="row7-box0" class="black">
+  				</div>
+  				<div class="row-box" id="row7-box1"></div>
+  				<div class="row-box black-box" id="row7-box2">
+  					<img src="images/black-piece.png" id="row7-box2" class="black">
+  				</div>
+  				<div class="row-box" id="row7-box3"></div>
+  				<div class="row-box black-box" id="row7-box4">
+  					<img src="images/black-piece.png" id="row7-box4" class="black">
+  				</div>
+  				<div class="row-box" id="row7-box5"></div>
+				<div class="row-box black-box" id="row7-box6">
+					<img src="images/black-piece.png" id="row7-box6" class="black">
+				</div>
+  				<div class="row-box" id="row7-box7"></div>
+  			</div>
+  		</div>
+  		<div class="white-score-space">
+  			0
+  		</div>
+  		<div class="black-score-space">
+  			0
+  		</div>
+	</body>
+</html>
