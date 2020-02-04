@@ -6,6 +6,11 @@
 		<script type="text/javascript" src="app.js"></script>
 	</head>
 	<body>
+		<p>Checkers</p>
+		 <div class="white-score-space">
+		 	White Score:
+		 	<span id="white-score">0</span>
+  		</div>
 		<div id="game-space">
   			<div class="row">
   				<div class="row-box" id="row0-box0"></div>
@@ -136,11 +141,13 @@
   				<div class="row-box" id="row7-box7"></div>
   			</div>
   		</div>
-  		<div class="white-score-space">
-  			0
-  		</div>
   		<div class="black-score-space">
-  			0
+  			Black Score:
+  			<span id="black-score">0</span>
+  		</div>
+  		<div class="user-turn-space">
+  			Current turn:
+  			<span id="current-turn">Black</span>
   		</div>
 	</body>
 </html>

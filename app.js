@@ -55,6 +55,10 @@ let pieceToMove = "";
 let targetLocation = "";
 let clickCount = 0;
 let pieceToMoveColor = "";
+let whiteScore = 0;
+let blackScore = 0;
+let currentTurn = "black";
+let gameOver = false;
 
 let gameInit = function(){
 	for(let x = 0; x < 3; x++){
@@ -80,8 +84,11 @@ let checkLegalMove = function(pieceColor, pieceX, pieceY, targetX, targetY) {
 
 	if(gameBoard[targetX][targetY].spaceColor === "white"){
 		console.log("Cannot Move");
+		return;
+	} else if(pieceColor !== currentTurn) {
+		console.log("Not your turn");
+		return;
 	}
-	
 	let colorAccess = gameBoard[pieceX][pieceY].currPiece.color;
 	let kingAccess = gameBoard[pieceX][pieceY].currPiece.isKing;
 	if(colorAccess === "white" && !kingAccess){
@@ -132,6 +139,7 @@ let regularMoveHandler = function(pieceColor, pieceX, pieceY, targetX, targetY){
 		}
 				//console.log(domPiece);
 		domSpace.appendChild(domPiece);
+		updateCurrentTurn(pieceColor);
 	}
 
 }
@@ -147,6 +155,7 @@ let regularMoveHandlerKing = function(pieceX, pieceY, targetX, targetY){
 		let domSpace = document.querySelector(selectSpace);
 		domPiece.id = `row${targetX}-box${targetY}`;
 		domSpace.appendChild(domPiece);
+		updateCurrentTurn(gameBoard[targetX][targetY].currPiece.color);
 	}
 }
 
@@ -188,6 +197,8 @@ let jumpMoveHandler = function(pieceColor, pieceX, pieceY, targetX, targetY, jum
 			let domRemoveParent = document.querySelectorAll(selectRemove)[0];
 			let domRemoveChild = document.querySelectorAll(selectRemove)[1];
 			domRemoveParent.removeChild(domRemoveChild);
+			updateCurrentTurn(pieceColor);
+			updateScore(pieceColor);
 		}
 	}
 }
@@ -225,7 +236,31 @@ let checkLegalKingMove = function(pieceColor, pieceX, pieceY, targetX, targetY) 
 	}
 }
 
+let updateCurrentTurn = function(pieceColor) {
+	let domUserTurn = document.querySelector("#current-turn");
+	if(pieceColor === "white"){
+		domUserTurn.innerText = "black";
+		currentTurn = "black";
+	} else {
+		domUserTurn.innerText = "white";
+		currentTurn = "white";
+	}
+}
+
+let updateScore = function(pieceColor) {
+	if(pieceColor === "white"){
+		whiteScore++;
+		let domWhiteScore = document.querySelector("#white-score");
+		domWhiteScore.innerText = whiteScore;
+	} else {
+		blackScore++;
+		let domBlackScore = document.querySelector("#black-score");
+		domBlackScore.innerText = blackScore;
+	}
+}
+
 let clickEventHandler = function(e) {
+	checkIfWhiteHasMove();
 	if(e.target.classList[0] === "row-box" && clickCount % 2 === 0){
 		console.log("return");
 		return;
@@ -248,14 +283,31 @@ let clickEventHandler = function(e) {
 		checkLegalMove(pieceToMoveColor,pieceRow,pieceColumn,locRow,locColumn);
 		pieceToMove = "";
 		targetLocation = "";
+
+	}
+}
+let checkGameOver = function(){
+	if(whiteScore === 12 || blackScore === 12){
+		gameOver = true;
+		console.log("GAME OVER");
+	}
+}
+
+let checkIfWhiteHasMove = function(){
+	for(let i = 0; i < 8; i++){
+		for(let j = 0; j < 8; j++) {
+			if(gameBoard[i][j].currPiece != null){
+				if(gameBoard[i][j].currPiece.color === "white" && !gameBoard[i][j].currPiece.isKing){
+					console.log("white piece not king");
+				}
+			}
+		}
 	}
 }
 
 
 
-
 document.addEventListener("DOMContentLoaded", function() {
-
 	gameInit();
 	document.querySelector("#game-space").addEventListener("click", clickEventHandler);
 })
