@@ -25,6 +25,31 @@ body{
 	width: 300px;
 	font-size: 30px;
 }
+.black-graveyard {
+	display: flex;
+	position: relative;
+	top: 20px;
+	right: 175px;
+	height: 15px;
+	width: 200px;
+	border: 1px black solid;
+}
+
+.white-graveyard {
+	display: flex;
+	margin-top: 10px;
+	position: relative;
+	border: 1px black solid;
+	height: 15px;
+	width: 200px;
+	left: 175px;
+	bottom: 5px;
+}
+
+.grave-image {
+	height: 15px;
+	width: 15px;
+}
 .user-turn-space {
 	position: relative;
 	top: 25px;
@@ -58,6 +83,21 @@ body{
 }
 .black-box {
 	background: black;
+}
+.do-not-show {
+	display: none;
+}
+.show {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+#game-over {
+	border: 1px black solid;
+	height: 60vw;
+	width: 60vw;
+	font-size: 30px;
 }
 img{
 	height: 100%;

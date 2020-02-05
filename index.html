@@ -7,7 +7,8 @@
 	</head>
 	<body>
 		<p>Checkers</p>
-		 <div class="white-score-space">
+		<div class="user-info white-graveyard"></div>
+		 <div class="white-score-space user-info">
 		 	White Score:
 		 	<span id="white-score">0</span>
   		</div>
@@ -141,13 +142,17 @@
   				<div class="row-box" id="row7-box7"></div>
   			</div>
   		</div>
-  		<div class="black-score-space">
+  		<div class="black-score-space user-info">
   			Black Score:
   			<span id="black-score">0</span>
   		</div>
-  		<div class="user-turn-space">
+  		<div class="user-info black-graveyard"></div>
+  		<div class="user-turn-space user-info">
   			Current turn:
   			<span id="current-turn">Black</span>
+  		</div>
+  		<div class="do-not-show" id="game-over">
+  			<span class="game-over-text">GAME OVER</span>
   		</div>
 	</body>
 </html>
