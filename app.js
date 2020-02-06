@@ -212,6 +212,9 @@ let jumpMoveHandler = function(pieceColor, pieceX, pieceY, targetX, targetY, jum
 				*/
 			}, 1000)
 			moveSinceTaken = 0;
+			if(checkDoubleJump(pieceColor, targetX, targetY)){
+				console.log("is double jump");
+			}
 			/*
 			domRemoveParent.removeChild(domRemoveChild);
 			updateGraveyard(jumpColor);
@@ -229,6 +232,7 @@ let updateGraveyard = function(color) {
 		domGraveImage.classList.add("grave-image");
 		let domImage = document.createElement("img");
 		domImage.src = "images/white-piece.png";
+		domImage.classList.add("graveyard-piece");
 		domGraveImage.appendChild(domImage);
 		domGraveyard.appendChild(domGraveImage);
 	} else {
@@ -237,6 +241,7 @@ let updateGraveyard = function(color) {
 		domGraveImage.classList.add("grave-image");
 		let domImage = document.createElement("img");
 		domImage.src = "images/black-piece.png";
+		domImage.classList.add("graveyard-piece");
 		domGraveImage.appendChild(domImage);
 		domGraveyard.appendChild(domGraveImage);
 	}
@@ -281,13 +286,14 @@ let updateCurrentTurn = function(pieceColor) {
 	if(pieceColor === "white"){
 		let sheet = document.styleSheets[0];
 		let rules = sheet.cssRules || sheet.rules;
-		rules[14].style.background = "green";
+		console.log(rules);
+		rules[16].style.background = "green";
 		domUserTurn.innerText = "black";
 		currentTurn = "black";
 	} else {
 		let sheet = document.styleSheets[0];
 		let rules = sheet.cssRules || sheet.rules;
-		rules[14].style.background = "blue";
+		rules[16].style.background = "blue";
 		console.log(sheet);
 		domUserTurn.innerText = "white";
 		currentTurn = "white";
@@ -583,6 +589,142 @@ let checkIfWhiteHasMove = function(){
 	return existMove;
 }
 
+let checkDoubleJump = function(pieceColor, currX, currY) {
+	if(pieceColor === "black"){
+		if(gameBoard[currX][currY].currPiece != null){
+			if(!gameBoard[currX][currY].currPiece.isKing){
+				if(currX-2 >= 0) {
+					let testX = currX-2;
+					let jumpX = testX+1;
+					if(currY-2 >= 0) {
+						let testY = currY-2;
+						let jumpY = testY+1;
+						let existMove = checkJump(gameBoard[currX][currY].currPiece.color, testX, testY, jumpX, jumpY);
+						if(existMove){
+							jumpMoveHandler(pieceColor, currX, currY, testX, testY, jumpX, jumpY);
+							console.log("force jump");
+							return existMove;
+						}
+					}
+				}
+				if(currX-2 >= 0){
+					let testX = currX-2;
+					let jumpX = testX+1;
+					if(currY+2 < 8){
+						let testY = currY+2;
+						let jumpY = testY-1;
+						let existMove = checkJump(gameBoard[currX][currY].currPiece.color, testX, testY, jumpX, jumpY);
+						if(existMove){
+							console.log("force jump");
+							jumpMoveHandler(pieceColor, currX, currY, testX, testY, jumpX, jumpY);
+							return existMove;
+						}
+					}
+				}
+			}
+		}
+	} else {
+		if(gameBoard[currX][currY].currPiece != null){
+			if(!gameBoard[currX][currY].currPiece.isKing){
+				if(currX+2 < 8) {
+					let testX = currX+2;
+					let jumpX = testX-1;
+					if(currY+2 < 8) {
+						let testY = currY+2;
+						let jumpY = testY-1;
+						let existMove = checkJump(gameBoard[currX][currY].currPiece.color, testX, testY, jumpX, jumpY);
+						if(existMove){
+							console.log("force jump");
+							jumpMoveHandler(pieceColor, currX, currY, testX, testY, jumpX, jumpY);
+							return existMove;
+						}
+					}
+				}
+				if(currX+2 < 8){
+					let testX = currX+2;
+					let jumpX = testX-1;
+					if(currY-2 >= 0){
+						let testY = currY-2;
+						let jumpY = testY+1;
+						let existMove = checkJump(gameBoard[currX][currY].currPiece.color, testX, testY, jumpX, jumpY);
+						if(existMove){
+							console.log("force jump");
+							jumpMoveHandler(pieceColor, currX, currY, testX, testY, jumpX, jumpY);
+							return existMove;
+						}
+					}
+				}
+			}
+		}
+	}
+	if(gameBoard[currX][currY].currPiece != null){
+		if(gameBoard[currX][currY].currPiece.isKing) {
+			checkKingDoubleJump(pieceColor, currX, currY);
+		}
+	}
+	return false;
+}
+
+let checkKingDoubleJump = function(pieceColor, currX, currY) {
+	if(currX+2 < 8) {
+		let testX = currX+2;
+		let jumpX = testX-1;
+		if(currY+2 < 8) {
+			let testY = currY+2;
+			let jumpY = testY-1;
+			let existMove = checkJump(gameBoard[currX][currY].currPiece.color, testX, testY, jumpX, jumpY);
+			if(existMove){
+				console.log("force jump");
+				jumpMoveHandler(pieceColor, currX, currY, testX, testY, jumpX, jumpY);
+				return existMove;
+			}
+		}
+	}
+	if(currX+2 < 8){
+		let testX = currX+2;
+		let jumpX = testX-1;
+		if(currY-2 >= 0){
+			let testY = currY-2;
+			let jumpY = testY+1;
+			let existMove = checkJump(gameBoard[currX][currY].currPiece.color, testX, testY, jumpX, jumpY);
+			if(existMove){
+				console.log("force jump");
+				jumpMoveHandler(pieceColor, currX, currY, testX, testY, jumpX, jumpY);
+				return existMove;
+			}
+		}
+	}
+	if(currX-2 >= 0){
+		let testX = currX-2;
+		let jumpX = testX+1;
+		if(currY+2 < 8){
+			let testY = currY+2;
+			let jumpY = testY-1;
+			let existMove = checkJump(gameBoard[currX][currY].currPiece.color, testX, testY, jumpX, jumpY);
+			if(existMove){
+				console.log("force jump");
+				jumpMoveHandler(pieceColor, currX, currY, testX, testY, jumpX, jumpY);
+				return existMove;
+			}
+		}
+	}
+	if(currX-2 >= 0) {
+		let testX = currX-2;
+		let jumpX = testX+1;
+		if(currY-2 >= 0) {
+			let testY = currY-2;
+			let jumpY = testY+1;
+			let existMove = checkJump(gameBoard[currX][currY].currPiece.color, testX, testY, jumpX, jumpY);
+			if(existMove){
+				jumpMoveHandler(pieceColor, currX, currY, testX, testY, jumpX, jumpY);
+				console.log("force jump");
+				return existMove;
+			}
+		}
+	}
+	return false;
+}
+
 let checkIfBlackHasMove = function(){
 	let existMove = false;
 	let i = 0;
@@ -709,8 +851,6 @@ let gameOverHandler = function(winnerColor) {
 		domUserInfoList[i].classList.add("do-not-show");
 	}
 }
-
-
 
 document.addEventListener("DOMContentLoaded", function() {
 	gameInit();

@@ -6,7 +6,11 @@
 		<script type="text/javascript" src="app.js"></script>
 	</head>
 	<body>
-		<p>Checkers</p>
+		<!--https://www.w3schools.com/howto/howto_js_alert.asp-->
+		<div class="start-screen-alert">
+			Welcome to Checkers! This is a fully functional two player checkers game. The black pieces move first! To play click on a piece and then click on the square you want to move to. Double jumps are automatic.
+			<button class="closebtn" onclick="this.parentElement.style.display = 'none';">Start Game!</button>
+		</div>
 		 <div class="white-score-space user-info">
 		 	White Score:
 		 	<span id="white-score">0</span>
@@ -147,7 +151,6 @@
   			Black Score:
   			<span id="black-score">0</span>
   		</div>
-  		<div class="user-info black-graveyard"></div>
   		<div class="user-turn-space user-info">
   			Current turn:
   			<span id="current-turn">Black</span>

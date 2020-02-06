@@ -4,71 +4,81 @@
 body{
 	text-align: center;
 }
+.start-screen-alert {
+	border: 2px black solid;
+	position: absolute;
+	top: 19vw;
+	left: 30%;
+	width: 40vw;
+	height: 13vw;
+	z-index: 1;
+	background: white;
+	font-size: 2vw;
+}
+.start-screen-alert button {
+	display: block;
+}
 .white-score-space {
 	position: relative;
-	left: 22vw;
-	border : 1px black solid;
-	height: 70px;
-	width: 300px;
-	font-size: 30px;
-	margin-bottom: 15px;
+	left: 7.5vw;
+	height: 3vw;
+	width: 20vw;
+	font-size: 2vw;
+	border: 2px blue dotted;
 }
 .white-score-space span {
-	font-size: 50px;
+	font-size: 3vw;
+	color: blue;
 }
 .black-score-space {
 	position: relative;
-	top: 15px;
-	right: 22vw;
-	border : 1px black solid;
-	height: 70px;
-	width: 300px;
-	font-size: 30px;
+	border: 2px green dotted;
+	right: 7.5vw;
+	height: 3vw;
+	width: 20vw;
+	font-size: 2vw;
 }
 .black-graveyard {
 	display: flex;
 	flex-direction: row;
 	align-items: flex-start;
-	height: 27px;
-	width: 300px;
+	height: 3vw;
+	width: 35vw;
 	position: relative;
-	top: 5px;
+	top: 2px;
 }
 
 .white-graveyard {
 	display: flex;
 	flex-direction: row-reverse;
 	align-items: flex-end;
-	margin-top: 10px;
-	height: 27px;
-	width: 300px;
+	height: 3vw;
+	width: 35vw;
 }
 
 .grave-image {
 	margin: 0;
-	height: 25px;
-	width: 25px;
+	height: 3vw;
+	width: 3vw;
 }
 .user-turn-space {
 	position: relative;
-	top: 25px;
-	font-size: 35px;
-	height: 40px;
-	width: 500px;
-	border: 1px black solid;
+	font-size: 3vw;
+	height: 3.5vw;
+	width: 30vw;
 }
 .user-turn-space span{
 	text-transform: uppercase;
 }
 .black-score-space span {
-	font-size: 50px;
+	font-size: 3vw;
+	color: green;
 }
 
 
 #game-space {
-	height: 60vw;
-	width: 60vw;
-	margin-bottom: 15px;
+	height: 35vw;
+	width: 35vw;
 }
 
 .row{
@@ -117,6 +127,10 @@ body{
 
 .dead-piece {
 	animation: fadeOut ease 2s;
+}
+
+.graveyard-piece {
+	animation: fadeIn ease 2s;
 }
 /*
 https://medium.com/cloud-native-the-gathering/how-to-use-css-to-fade-in-and-fade-out-html-text-and-pictures-f45c11364f08
