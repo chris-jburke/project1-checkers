@@ -27,28 +27,27 @@ body{
 }
 .black-graveyard {
 	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	height: 27px;
+	width: 300px;
 	position: relative;
-	top: 20px;
-	right: 175px;
-	height: 15px;
-	width: 200px;
-	border: 1px black solid;
+	top: 5px;
 }
 
 .white-graveyard {
 	display: flex;
+	flex-direction: row-reverse;
+	align-items: flex-end;
 	margin-top: 10px;
-	position: relative;
-	border: 1px black solid;
-	height: 15px;
-	width: 200px;
-	left: 175px;
-	bottom: 5px;
+	height: 27px;
+	width: 300px;
 }
 
 .grave-image {
-	height: 15px;
-	width: 15px;
+	margin: 0;
+	height: 25px;
+	width: 25px;
 }
 .user-turn-space {
 	position: relative;
@@ -64,25 +63,31 @@ body{
 .black-score-space span {
 	font-size: 50px;
 }
+
+
 #game-space {
 	height: 60vw;
 	width: 60vw;
 	margin-bottom: 15px;
 }
+
 .row{
 	display: flex;
 	height: 12.5%;
-	border: 1px black solid;
 	flex-direction: row;
 }
 .row-box{
+	position: relative;
 	height: 100%;
 	width: 100%;
 	border: 1px black solid;
 	margin: 0px 0px 0px 0px;
 }
+.black-box:hover{
+	background: green;
+}
 .black-box {
-	background: black;
+	background: #242a30
 }
 .do-not-show {
 	display: none;
@@ -94,11 +99,37 @@ body{
 	flex-direction: column;
 }
 #game-over {
+	font-size: 30px;
 	border: 1px black solid;
 	height: 60vw;
 	width: 60vw;
-	font-size: 30px;
+	animation: fadeIn ease 5s;
 }
+
+@keyframes fadeOut {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+
+.dead-piece {
+	animation: fadeOut ease 2s;
+}
+/*
+https://medium.com/cloud-native-the-gathering/how-to-use-css-to-fade-in-and-fade-out-html-text-and-pictures-f45c11364f08
+*/
+@keyframes fadeIn {
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}
+
 img{
 	height: 100%;
 	width: 100%;

@@ -59,6 +59,7 @@ let whiteScore = 0;
 let blackScore = 0;
 let currentTurn = "black";
 let gameOver = false;
+let moveSinceTaken = 0;
 
 let gameInit = function(){
 	for(let x = 0; x < 3; x++){
@@ -85,10 +86,10 @@ let checkLegalMove = function(pieceColor, pieceX, pieceY, targetX, targetY) {
 	if(gameBoard[targetX][targetY].spaceColor === "white"){
 		console.log("Cannot Move");
 		return;
-	} /*else if(pieceColor !== currentTurn) {
+	} else if(pieceColor !== currentTurn) {
 		console.log("Not your turn");
 		return;
-	}*/
+	}
 	let colorAccess = gameBoard[pieceX][pieceY].currPiece.color;
 	let kingAccess = gameBoard[pieceX][pieceY].currPiece.isKing;
 	if(colorAccess === "white" && !kingAccess){
@@ -141,6 +142,7 @@ let regularMoveHandler = function(pieceColor, pieceX, pieceY, targetX, targetY){
 		domSpace.appendChild(domPiece);
 		updateCurrentTurn(pieceColor);
 	}
+	moveSinceTaken++;
 
 }
 let regularMoveHandlerKing = function(pieceX, pieceY, targetX, targetY){
@@ -157,6 +159,7 @@ let regularMoveHandlerKing = function(pieceX, pieceY, targetX, targetY){
 		domSpace.appendChild(domPiece);
 		updateCurrentTurn(gameBoard[targetX][targetY].currPiece.color);
 	}
+	moveSinceTaken++;
 }
 
 let jumpMoveHandler = function(pieceColor, pieceX, pieceY, targetX, targetY, jumpX, jumpY) {
@@ -196,10 +199,25 @@ let jumpMoveHandler = function(pieceColor, pieceX, pieceY, targetX, targetY, jum
 			gameBoard[jumpX][jumpY].isOpen = true;
 			let domRemoveParent = document.querySelectorAll(selectRemove)[0];
 			let domRemoveChild = document.querySelectorAll(selectRemove)[1];
+			domRemoveChild.classList.add("dead-piece");
+			updateGraveyard(jumpColor);
+			updateCurrentTurn(pieceColor);
+			updateScore(pieceColor);
+			setTimeout(function(){
+				domRemoveParent.removeChild(domRemoveChild);
+				/*
+				updateGraveyard(jumpColor);
+				updateCurrentTurn(pieceColor);
+				updateScore(pieceColor);
+				*/
+			}, 1000)
+			moveSinceTaken = 0;
+			/*
 			domRemoveParent.removeChild(domRemoveChild);
 			updateGraveyard(jumpColor);
 			updateCurrentTurn(pieceColor);
 			updateScore(pieceColor);
+			*/
 		}
 	}
 }
@@ -244,26 +262,33 @@ let checkLegalKingMove = function(pieceColor, pieceX, pieceY, targetX, targetY) 
 		let jumpX = targetX+1;
 		let jumpY = targetY-1;
 		jumpMoveHandler(pieceColor, pieceX, pieceY, targetX, targetY, jumpX, jumpY);
-		console.log("jump 2")
+		//console.log("jump 2")
 	} else if(targetX === (pieceX + 2) && targetY === (pieceY + 2)){
 		let jumpX = targetX-1;
 		let jumpY = targetY-1;
 		jumpMoveHandler(pieceColor, pieceX, pieceY, targetX, targetY, jumpX, jumpY);
 
 	} else if(targetX === (pieceX + 2) && targetY === (pieceY - 2)){
-		console.log("here");
+		//console.log("here");
 		let jumpX = targetX-1;
 		let jumpY = targetY+1;
 		jumpMoveHandler(pieceColor, pieceX, pieceY, targetX, targetY, jumpX, jumpY);
 	}
 }
-
+//https://stackoverflow.com/questions/13528512/modify-a-css-rule-object-with-javascript
 let updateCurrentTurn = function(pieceColor) {
 	let domUserTurn = document.querySelector("#current-turn");
 	if(pieceColor === "white"){
+		let sheet = document.styleSheets[0];
+		let rules = sheet.cssRules || sheet.rules;
+		rules[14].style.background = "green";
 		domUserTurn.innerText = "black";
 		currentTurn = "black";
 	} else {
+		let sheet = document.styleSheets[0];
+		let rules = sheet.cssRules || sheet.rules;
+		rules[14].style.background = "blue";
+		console.log(sheet);
 		domUserTurn.innerText = "white";
 		currentTurn = "white";
 	}
@@ -283,7 +308,7 @@ let updateScore = function(pieceColor) {
 
 let clickEventHandler = function(e) {
 	if(e.target.classList[0] === "row-box" && clickCount % 2 === 0){
-		console.log("return");
+		//console.log("return");
 		return;
 	}
 	if (clickCount % 2 === 0){
@@ -313,14 +338,14 @@ let clickEventHandler = function(e) {
 	if(!isWhiteMove){
 		let isKingMove = checkIfKingMove("white");
 		if(!isKingMove) {
-			console.log("Black wins");
+			//console.log("Black wins");
 			gameOver = true;
 			gameOverHandler("black");
 		}
 	} else if(!isBlackMove){
 		let isKingMove = checkIfKingMove("black");
 		if(!isKingMove){
-			console.log("White wins");
+			//console.log("White wins");
 			gameOver = true;
 			gameOverHandler("white");
 		}
@@ -328,6 +353,7 @@ let clickEventHandler = function(e) {
 	if(gameOver === false){
 		checkGameOver(); 
 	}
+	console.log(moveSinceTaken);
 }
 let checkGameOver = function(){
 	if(whiteScore === 12) {
@@ -337,6 +363,10 @@ let checkGameOver = function(){
 	} else if(blackScore === 12) {
 		gameOver = true;
 		gameOverHandler("black");
+	}
+	if(moveSinceTaken === 50){
+		gameOver = true;
+		gameOverHandler("tie")
 	}
 }
 
@@ -349,7 +379,7 @@ let checkIfKingMove = function(pieceColor){
 		while(!existMove && j < 8){
 			if(gameBoard[i][j].currPiece != null){
 				if(gameBoard[i][j].currPiece.isKing && gameBoard[i][j].currPiece.color === pieceColor){
-					console.log("current king: i: " + i + " j: " + j);
+					//console.log("current king: i: " + i + " j: " + j);
 					let testX = 0;
 					let testY = 0;
 					if(i+1 < 8) {
@@ -360,9 +390,11 @@ let checkIfKingMove = function(pieceColor){
 						}
 					}
 					if(existMove){
+						/*
 						console.log("first check success");
 						console.log("i: " + i);
 						console.log("j: " + j);
+						*/
 						return existMove;
 					}
 					if(i+1 < 8) {
@@ -373,7 +405,7 @@ let checkIfKingMove = function(pieceColor){
 						}
 					}
 					if(existMove){
-						console.log("second check success");
+						//console.log("second check success");
 						return existMove;
 					}
 					if(i-1 >= 0) {
@@ -385,9 +417,11 @@ let checkIfKingMove = function(pieceColor){
 					}
 					existMove = checkMove(testX, testY);
 					if(existMove){
+						/*
 						console.log("third check success");
 						console.log("i: " + i);
 						console.log("j: " + j);
+						*/
 						return existMove;
 					}
 					if(i-1 >= 0) {
@@ -398,9 +432,11 @@ let checkIfKingMove = function(pieceColor){
 						}
 					}
 					if(existMove){
+						/*
 						console.log("i: " + i);
 						console.log("j: " + j);
 						console.log("4th check success");
+						*/
 						return existMove;
 					}
 					let jumpX = 0;
@@ -415,8 +451,8 @@ let checkIfKingMove = function(pieceColor){
 						}
 					}
 					if(existMove){
-						console.log("tarX: " + testX);
-						console.log("tarY: " + testY);
+						//console.log("tarX: " + testX);
+						//console.log("tarY: " + testY);
 						return existMove;
 					}
 					if(i-2 >= 0){
@@ -429,8 +465,10 @@ let checkIfKingMove = function(pieceColor){
 						}
 					}
 					if(existMove){
+						/*
 						console.log("tarX " + testX);
 						console.log("tarY " + testY);
+						*/
 						return existMove;
 					}
 					if(i+2 < 8) {
@@ -444,8 +482,8 @@ let checkIfKingMove = function(pieceColor){
 					}
 					if(existMove){
 						return existMove;
-						console.log("tarX: " + testX);
-						console.log("tarY: " + testY);
+						//console.log("tarX: " + testX);
+						//console.log("tarY: " + testY);
 					}
 					if(i+2 < 8){
 						testX = i+2;
@@ -457,8 +495,8 @@ let checkIfKingMove = function(pieceColor){
 						}
 					}
 					if(existMove){
-						console.log("tarX: " + testX);
-						console.log("tarY: " + testY);
+						//console.log("tarX: " + testX);
+						//console.log("tarY: " + testY);
 						return existMove;
 					}
 				}
@@ -487,13 +525,13 @@ let checkIfWhiteHasMove = function(){
 							existMove = checkMove(testX, testY);
 						}
 					}
-					console.log("first test i: " + i);
-					console.log("first test j: " + j);
+					//console.log("first test i: " + i);
+					//console.log("first test j: " + j);
 					//existMove = checkMove(testX, testY);
 					if(existMove){
-						console.log("first check success");
-						console.log("testX: " + testX);
-						console.log("testY " + testY);
+						//console.log("first check success");
+						//console.log("testX: " + testX);
+						//console.log("testY " + testY);
 						return existMove;
 					}
 					if(i+1 < 8) {
@@ -504,7 +542,7 @@ let checkIfWhiteHasMove = function(){
 						}
 					}
 					if(existMove){
-						console.log("second check success");
+						//console.log("second check success");
 						return existMove;
 					}
 					let jumpX = 0;
@@ -519,11 +557,11 @@ let checkIfWhiteHasMove = function(){
 						}
 					}
 					//existMove = checkJump(gameBoard[i][j].currPiece.color, testX, testY, jumpX, jumpY);
-					console.log("i: " + i);
-					console.log("j: " + j);
+					//console.log("i: " + i);
+					//console.log("j: " + j);
 					if(existMove){
-						console.log("tarX: " + testX);
-						console.log("tarY: " + testY);
+						//console.log("tarX: " + testX);
+						//console.log("tarY: " + testY);
 						return existMove;
 					}
 					if(i+2 < 8){
@@ -563,9 +601,9 @@ let checkIfBlackHasMove = function(){
 						}
 					}
 					if(existMove){
-						console.log("first check success");
-						console.log("i: " + i);
-						console.log("j: " + j);
+						//console.log("first check success");
+						//console.log("i: " + i);
+						//console.log("j: " + j);
 						return existMove;
 					}
 					if(i - 1 >= 0) {
@@ -576,9 +614,9 @@ let checkIfBlackHasMove = function(){
 						}
 					}
 					if(existMove){
-						console.log("i: " + i);
-						console.log("j: " + j);
-						console.log("second check success");
+						//console.log("i: " + i);
+						//console.log("j: " + j);
+						//console.log("second check success");
 						return existMove;
 					}
 					let jumpX = 0;
@@ -593,8 +631,8 @@ let checkIfBlackHasMove = function(){
 						}
 					}
 					if(existMove){
-						console.log("tarX: " + testX);
-						console.log("tarY: " + testY);
+						//console.log("tarX: " + testX);
+						//console.log("tarY: " + testY);
 						return existMove;
 					}
 					if(i-2 >= 0){
@@ -607,8 +645,8 @@ let checkIfBlackHasMove = function(){
 						}
 					}
 					if(existMove){
-						console.log("tarX " + testX);
-						console.log("tarY " + testY);
+						//console.log("tarX " + testX);
+						//console.log("tarY " + testY);
 						return existMove;
 					}
 				}
@@ -656,8 +694,14 @@ let gameOverHandler = function(winnerColor) {
 	let domGameOver = document.querySelector("#game-over");
 	domGameOver.classList.remove("do-not-show");
 	domGameOver.classList.add("show");
+	if(winnerColor === "tie"){}
 	let winner = document.createElement("span");
-	let winnerString = "The winner is: " + winnerColor.toUpperCase();
+	let winnerString = ""
+	if(winnerColor === "tie"){
+		winnerString = "The game is a tie!"
+	} else {
+		winnerString = "The winner is: " + winnerColor.toUpperCase();
+	}
 	winner.innerText = winnerString;
 	domGameOver.appendChild(winner);
 	let domUserInfoList = document.querySelectorAll(".user-info");
