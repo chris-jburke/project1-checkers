@@ -128,8 +128,20 @@ let regularMoveHandler = function(pieceColor, pieceX, pieceY, targetX, targetY){
 		gameBoard[pieceX][pieceY].isOpen = true;
 		let selectPiece = `#row${pieceX}-box${pieceY}`;
 		let selectSpace = `#row${targetX}-box${targetY}`;
+		let selectOldSpace = `#row${pieceX}-box${pieceY}`;
+		let domOldSpace = document.querySelector(selectOldSpace);
+		if(pieceColor === "black") {
+			domOldSpace.classList.remove("black-user");
+		} else {
+			domOldSpace.classList.remove("white-user");
+		}
 		let domPiece = document.querySelectorAll(selectPiece)[1];
 		let domSpace = document.querySelector(selectSpace);
+		if(pieceColor === "black") {
+			domSpace.classList.add("black-user");
+		} else {
+			domSpace.classList.add("white-user");
+		}
 		domPiece.id = `row${targetX}-box${targetY}`;
 		if(targetX ===  0 && pieceColor === "black"){
 			gameBoard[targetX][targetY].currPiece.isKing = true;
@@ -147,6 +159,7 @@ let regularMoveHandler = function(pieceColor, pieceX, pieceY, targetX, targetY){
 }
 let regularMoveHandlerKing = function(pieceX, pieceY, targetX, targetY){
 	if(gameBoard[targetX][targetY].isOpen){
+		let pieceColor = gameBoard[pieceX][pieceY].currPiece.color;
 		gameBoard[targetX][targetY].currPiece = gameBoard[pieceX][pieceY].currPiece;
 		gameBoard[targetX][targetY].isOpen = false;
 		gameBoard[pieceX][pieceY].currPiece = null;
@@ -155,6 +168,14 @@ let regularMoveHandlerKing = function(pieceX, pieceY, targetX, targetY){
 		let selectSpace = `#row${targetX}-box${targetY}`;
 		let domPiece = document.querySelectorAll(selectPiece)[1];
 		let domSpace = document.querySelector(selectSpace);
+		let domOldSpace = document.querySelector(selectPiece);
+		if(pieceColor === "white"){
+			domOldSpace.classList.remove("white-user");
+			domSpace.classList.add("white-user");
+		} else {
+			domOldSpace.classList.remove("black-user");
+			domSpace.classList.add("black-user");
+		}
 		domPiece.id = `row${targetX}-box${targetY}`;
 		domSpace.appendChild(domPiece);
 		updateCurrentTurn(gameBoard[targetX][targetY].currPiece.color);
@@ -181,13 +202,18 @@ let jumpMoveHandler = function(pieceColor, pieceX, pieceY, targetX, targetY, jum
 			let selectSpace = `#row${targetX}-box${targetY}`;
 			let domPiece = document.querySelectorAll(selectPiece)[1];
 			let domSpace = document.querySelector(selectSpace);
+			let domOldSpace = document.querySelector(selectPiece);
 			domPiece.id = `row${targetX}-box${targetY}`;
 			if(pieceColor === "white"){
+				domOldSpace.classList.remove("white-user");
+				domSpace.classList.add("white-user");
 				if(targetX === 7 && !gameBoard[targetX][targetY].isKing) {
 					gameBoard[targetX][targetY].currPiece.isKing = true;
 					domPiece.src = "images/white-king.png";
 				}
 			} else {
+				domOldSpace.classList.remove("black-user");
+				domSpace.classList.add("black-user");
 				if(targetX === 0 && !gameBoard[targetX][targetY].isKing) {
 					gameBoard[targetX][targetY].currPiece.isKing = true;
 					domPiece.src = "images/black-king.png"
@@ -200,6 +226,11 @@ let jumpMoveHandler = function(pieceColor, pieceX, pieceY, targetX, targetY, jum
 			let domRemoveParent = document.querySelectorAll(selectRemove)[0];
 			let domRemoveChild = document.querySelectorAll(selectRemove)[1];
 			domRemoveChild.classList.add("dead-piece");
+			if(pieceColor === "white"){
+				domRemoveParent.classList.remove("black-user");
+			} else {
+				domRemoveParent.classList.remove("white-user");
+			}
 			updateGraveyard(jumpColor);
 			updateCurrentTurn(pieceColor);
 			updateScore(pieceColor);
@@ -287,16 +318,24 @@ let updateCurrentTurn = function(pieceColor) {
 		let sheet = document.styleSheets[0];
 		let rules = sheet.cssRules || sheet.rules;
 		console.log(rules);
-		rules[16].style.background = "green";
+		rules[13].style.background = "#5fd15a";
+		rules[14].style.background = "rgb(36, 42, 48)"
+		rules[15].style.background = "#5fd15a";
 		domUserTurn.innerText = "black";
 		currentTurn = "black";
+		domUserTurn.classList.remove("current-turn-white")
+		domUserTurn.classList.add("current-turn-black");
 	} else {
 		let sheet = document.styleSheets[0];
 		let rules = sheet.cssRules || sheet.rules;
-		rules[16].style.background = "blue";
+		rules[13].style.background = "#3a5cf2";
+		rules[14].style.background = "#3a5cf2";
+		rules[15].style.background = "rgb(36, 42, 48)"
 		console.log(sheet);
 		domUserTurn.innerText = "white";
 		currentTurn = "white";
+		domUserTurn.classList.remove("current-turn-black")
+		domUserTurn.classList.add("current-turn-white");
 	}
 }
 
@@ -842,18 +881,24 @@ let gameOverHandler = function(winnerColor) {
 	if(winnerColor === "tie"){
 		winnerString = "The game is a tie!"
 	} else {
-		winnerString = "The winner is: " + winnerColor.toUpperCase();
+		winnerString = "The winner is the: " + winnerColor.toUpperCase() + " player";
 	}
 	winner.innerText = winnerString;
-	domGameOver.appendChild(winner);
 	let domUserInfoList = document.querySelectorAll(".user-info");
 	for(let i = 0; i < domUserInfoList.length; i++){
-		domUserInfoList[i].classList.add("do-not-show");
+		domUserInfoList[i].classList.add("game-over-fade");
 	}
+	setTimeout(function(){
+		for(let i = 0; i < domUserInfoList.length; i++){
+			domUserInfoList[i].classList.remove("game-over-fade");
+			domUserInfoList[i].classList.add("do-not-show");
+		}
+		domGameOver.classList.add("show");
+		domGameOver.appendChild(winner);
+	}, 2000);
 }
 
 document.addEventListener("DOMContentLoaded", function() {
 	gameInit();
 	document.querySelector("#game-space").addEventListener("click", clickEventHandler);
-	//gameOverHandler("white");
 })
