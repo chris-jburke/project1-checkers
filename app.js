@@ -900,5 +900,6 @@ let gameOverHandler = function(winnerColor) {
 
 document.addEventListener("DOMContentLoaded", function() {
 	gameInit();
+	
 	document.querySelector("#game-space").addEventListener("click", clickEventHandler);
 })
