@@ -2,7 +2,7 @@
 
 
 ##Wireframe:
-![wireframe](images/wirephrame.pdf)
+![wireframe](images/wireframe.pdf)
 
 ##Initial planning:
 1. Set up the game board in HTML and get basic CSS styling
