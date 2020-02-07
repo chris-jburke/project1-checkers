@@ -55,9 +55,3 @@ To create the game I utilized vinalla JS, CSS, and HTML. I made the board by cre
 
 ## Sources:
 - https://stackoverflow.com/questions/13528512/modify-a-css-rule-object-with-javascript
-
-
-SEI 29 - Project 1
-
-add to strech goals:
-forced jumps
