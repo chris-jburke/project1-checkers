@@ -1,5 +1,7 @@
 # project1-checkers
 
+## Link to Site:
+https://chris-jburke.github.io/project1-checkers/
 
 ## Wireframe:
 ![wireframe](images/wireframe.pdf)
