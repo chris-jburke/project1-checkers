@@ -18,7 +18,7 @@ jobs:
     - name: Set up Node.js version
       uses: actions/setup-node@v1
       with:
-        node-version: '12.x'
+        node-version: '10.14'
 
     - name: npm install, build, and test
       run: |
@@ -31,5 +31,5 @@ jobs:
       with:
         app-name: 'checkers-cb'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_dd78e9fc79ef49a38ac8a4631eb1e25d }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_7bf21d0c8c284f998e9e1f91a15882dd }}
         package: .
